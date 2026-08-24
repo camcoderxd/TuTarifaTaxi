@@ -3,37 +3,57 @@
 <head>
   <meta charset="UTF-8">
 
-  <meta name="viewport"
-        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+  >
 
   <meta name="theme-color" content="#0f172a">
-  <meta name="description" content="Asistente de negociación para carreras de taxi">
+
+  <meta
+    name="description"
+    content="Asistente de negociación para carreras de taxi"
+  >
 
   <link rel="manifest" href="manifest.json">
 
   <title>Asistente de Negociación</title>
 
   <style>
+
     :root {
       --bg-color: #0f172a;
       --card-bg: #1e293b;
+
       --accent-green: #22c55e;
       --accent-yellow: #eab308;
       --accent-red: #ef4444;
+
       --recojo-color: #3b82f6;
       --viaje-color: #10b981;
+
       --text-color: #f8fafc;
       --subtext-color: #94a3b8;
+
       --input-bg: #334155;
       --border-color: #475569;
     }
+
 
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
-      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+
+      font-family:
+        'Segoe UI',
+        system-ui,
+        -apple-system,
+        sans-serif;
     }
+
+
+    /* Ocultar flechas de inputs numéricos */
 
     input::-webkit-outer-spin-button,
     input::-webkit-inner-spin-button {
@@ -45,371 +65,805 @@
       -moz-appearance: textfield;
     }
 
+
     body {
+
       background-color: var(--bg-color);
+
       color: var(--text-color);
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
+
       min-height: 100vh;
       min-height: 100dvh;
-      padding: 16px;
+
+      padding: 12px;
     }
+
 
     .container {
+
       background-color: var(--card-bg);
+
       width: 100%;
+
       max-width: 500px;
+
       border-radius: 16px;
-      padding: 20px;
-      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
-      border: 1px solid var(--border-color);
+
+      padding: 18px;
+
+      box-shadow:
+        0 10px 25px rgba(0, 0, 0, 0.5);
+
+      border:
+        1px solid var(--border-color);
     }
 
+
     h1 {
-      font-size: 1.3rem;
+
+      font-size: 1.35rem;
+
       text-align: center;
+
       margin-bottom: 16px;
+
       color: var(--text-color);
     }
 
+
+    /* ========================================
+       TARJETA PRINCIPAL
+       ======================================== */
+
     .decision-card {
+
       border-radius: 12px;
-      padding: 16px;
+
+      padding: 18px 14px;
+
       text-align: center;
+
       margin-bottom: 16px;
-      transition: all 0.3s ease;
-      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+
+      min-height: 94px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      transition:
+        all 0.3s ease;
+
+      background:
+        linear-gradient(
+          135deg,
+          #15803d 0%,
+          #166534 100%
+        );
     }
+
 
     .decision-card.verde {
-      background: linear-gradient(135deg, #166534 0%, #14532d 100%);
-      border: 2px solid var(--accent-green);
+
+      background:
+        linear-gradient(
+          135deg,
+          #166534 0%,
+          #14532d 100%
+        );
+
+      border:
+        2px solid var(--accent-green);
     }
+
 
     .decision-card.amarillo {
-      background: linear-gradient(135deg, #854d0e 0%, #713f12 100%);
-      border: 2px solid var(--accent-yellow);
+
+      background:
+        linear-gradient(
+          135deg,
+          #854d0e 0%,
+          #713f12 100%
+        );
+
+      border:
+        2px solid var(--accent-yellow);
     }
+
 
     .decision-card.rojo {
-      background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
-      border: 2px solid var(--accent-red);
+
+      background:
+        linear-gradient(
+          135deg,
+          #991b1b 0%,
+          #7f1d1d 100%
+        );
+
+      border:
+        2px solid var(--accent-red);
     }
 
+
     .decision-card .action-label {
-      font-size: 1.2rem;
+
+      font-size: 1.25rem;
+
       font-weight: 800;
-      letter-spacing: 1px;
-      margin-bottom: 4px;
+
+      letter-spacing: 0.5px;
+
+      margin-bottom: 5px;
+
       text-transform: uppercase;
     }
 
+
     .decision-card .sub-label {
+
       font-size: 0.85rem;
+
       color: #e2e8f0;
+
+      line-height: 1.35;
     }
 
+
+    /* ========================================
+       COMPARATIVA
+       ======================================== */
+
     .comparison-grid {
+
       display: grid;
-      grid-template-columns: 1fr 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr 1fr;
+
       gap: 8px;
+
       margin-bottom: 16px;
     }
 
+
     .comp-box {
+
       background-color: #0f172a;
+
       border-radius: 8px;
-      padding: 10px 6px;
+
+      padding: 10px 5px;
+
+      min-height: 72px;
+
+      display: flex;
+
+      flex-direction: column;
+
+      justify-content: center;
+
+      align-items: center;
+
       text-align: center;
-      border: 1px solid var(--border-color);
+
+      border:
+        1px solid var(--border-color);
     }
 
+
     .comp-box .title {
+
       font-size: 0.7rem;
+
       color: var(--subtext-color);
+
       text-transform: uppercase;
-      margin-bottom: 4px;
+
+      margin-bottom: 5px;
+
       font-weight: 600;
     }
 
+
     .comp-box .val {
-      font-size: 1.1rem;
+
+      font-size: 1.05rem;
+
       font-weight: bold;
     }
 
+
+    /* ========================================
+       INPUTS
+       ======================================== */
+
     .grid-inputs {
+
       display: grid;
-      grid-template-columns: 1fr 1fr;
+
+      grid-template-columns:
+        1fr 1fr;
+
       gap: 10px;
+
       margin-bottom: 16px;
     }
 
+
     .form-group {
+
       margin-bottom: 0;
     }
 
+
     .form-group.full {
-      grid-column: span 2;
+
+      grid-column:
+        span 2;
     }
 
+
     label {
+
       display: block;
-      font-size: 0.8rem;
-      margin-bottom: 4px;
+
+      font-size: 0.85rem;
+
+      margin-bottom: 6px;
+
       color: var(--subtext-color);
+
       font-weight: 600;
     }
 
+
     .input-wrapper {
+
       position: relative;
+
       display: flex;
+
       align-items: center;
     }
 
+
     input[type="number"] {
+
       width: 100%;
+
+      min-height: 54px;
+
       background-color: var(--input-bg);
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      padding: 8px 12px;
-      font-size: 1.1rem;
+
+      border:
+        1px solid var(--border-color);
+
+      border-radius: 10px;
+
+      padding:
+        10px 48px 10px 14px;
+
+      font-size: 16px;
+
       color: var(--text-color);
+
       outline: none;
+
+      -webkit-appearance: none;
+
+      transition:
+        border-color 0.15s ease,
+        background-color 0.15s ease;
     }
+
 
     input[type="number"]:focus {
-      border-color: var(--accent-green);
+
+      border-color:
+        var(--accent-green);
+
+      background-color:
+        #3b4b61;
     }
+
 
     .unit {
+
       position: absolute;
-      right: 10px;
+
+      right: 12px;
+
       color: var(--subtext-color);
+
       font-size: 0.85rem;
+
       font-weight: bold;
+
+      pointer-events: none;
     }
+
+
+    /* ========================================
+       GRÁFICOS
+       ======================================== */
 
     .chart-section {
+
       background-color: #0f172a;
+
       border-radius: 10px;
+
       padding: 12px;
+
       margin-top: 12px;
-      border: 1px solid var(--border-color);
+
+      border:
+        1px solid var(--border-color);
     }
 
+
     .section-title {
+
       font-size: 0.75rem;
+
       text-transform: uppercase;
+
       color: var(--subtext-color);
+
       margin-bottom: 8px;
+
       letter-spacing: 0.5px;
     }
 
+
     .bar-container {
+
       height: 14px;
+
       background-color: #334155;
+
       border-radius: 7px;
+
       display: flex;
+
       overflow: hidden;
-      margin-bottom: 6px;
+
+      margin-bottom: 7px;
     }
+
 
     .bar-recojo {
-      background-color: var(--recojo-color);
+
+      background-color:
+        var(--recojo-color);
+
       height: 100%;
-      transition: width 0.3s ease;
+
+      transition:
+        width 0.3s ease;
     }
+
 
     .bar-viaje {
-      background-color: var(--viaje-color);
+
+      background-color:
+        var(--viaje-color);
+
       height: 100%;
-      transition: width 0.3s ease;
+
+      transition:
+        width 0.3s ease;
     }
 
+
     .bar-legend {
+
       display: flex;
-      justify-content: space-between;
+
+      justify-content:
+        space-between;
+
+      gap: 8px;
+
       font-size: 0.75rem;
     }
 
+
     .legend-item {
+
       display: flex;
+
       align-items: center;
+
       gap: 4px;
     }
 
+
     .dot {
+
       width: 8px;
+
       height: 8px;
+
+      min-width: 8px;
+
       border-radius: 50%;
     }
 
+
     .dot-recojo {
-      background-color: var(--recojo-color);
+
+      background-color:
+        var(--recojo-color);
     }
+
 
     .dot-viaje {
-      background-color: var(--viaje-color);
+
+      background-color:
+        var(--viaje-color);
     }
 
+
+    /* ========================================
+       GRÁFICO CIRCULAR
+       ======================================== */
+
     .time-visual-wrapper {
+
       display: flex;
+
       align-items: center;
+
       justify-content: space-between;
+
       gap: 12px;
     }
 
+
     .circle-chart {
+
       width: 70px;
+
       height: 70px;
+
       min-width: 70px;
+
       border-radius: 50%;
-      background: conic-gradient(
-        var(--accent-green) 0deg,
-        #334155 0deg
-      );
+
+      background:
+        conic-gradient(
+          var(--accent-green) 0deg,
+          #334155 0deg
+        );
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
     }
+
 
     .circle-inner {
+
       width: 54px;
+
       height: 54px;
+
       background-color: #0f172a;
+
       border-radius: 50%;
+
       display: flex;
+
       justify-content: center;
+
       align-items: center;
     }
 
+
     .percent-text {
+
       font-size: 0.95rem;
+
       font-weight: bold;
+
       color: var(--text-color);
     }
+
 
     .time-detail {
+
       flex-grow: 1;
+
       font-size: 0.8rem;
+
       color: var(--subtext-color);
+
+      line-height: 1.6;
     }
+
 
     .time-detail strong {
+
       color: var(--text-color);
     }
+
+
+    /* ========================================
+       CONFIGURACIÓN
+       ======================================== */
 
     .settings-grid {
+
       display: grid;
+
       grid-template-columns: 1fr;
+
       gap: 10px;
+
       margin-top: 12px;
+
       padding-top: 10px;
-      border-top: 1px solid var(--border-color);
+
+      border-top:
+        1px solid var(--border-color);
     }
 
-    /* Botón de reinicio */
-    .reset-button {
+
+    /* ========================================
+       BOTÓN NUEVA CARRERA
+       ======================================== */
+
+    .new-ride-button {
+
       width: 100%;
-      margin-top: 14px;
-      padding: 11px;
-      border: 1px solid var(--border-color);
-      border-radius: 8px;
-      background: #334155;
-      color: var(--text-color);
-      font-size: 0.9rem;
-      font-weight: 600;
+
+      min-height: 58px;
+
+      margin-top: 16px;
+
+      padding: 12px 16px;
+
+      border:
+        2px solid #475569;
+
+      border-radius: 12px;
+
+      background-color:
+        #334155;
+
+      color:
+        var(--text-color);
+
+      font-size: 1.05rem;
+
+      font-weight: 800;
+
+      letter-spacing: 0.5px;
+
       cursor: pointer;
+
+      -webkit-tap-highlight-color:
+        transparent;
+
+      touch-action: manipulation;
+
+      transition:
+        transform 0.1s ease,
+        background-color 0.15s ease;
     }
 
-    .reset-button:active {
-      transform: scale(0.98);
-      background: #475569;
+
+    .new-ride-button:active {
+
+      transform:
+        scale(0.97);
+
+      background-color:
+        #475569;
     }
 
-    @media (max-width: 360px) {
+
+    /* ========================================
+       PANTALLAS PEQUEÑAS
+       ======================================== */
+
+    @media (max-width: 380px) {
+
+      body {
+        padding: 8px;
+      }
+
       .container {
         padding: 14px;
+      }
+
+      h1 {
+        font-size: 1.2rem;
+      }
+
+      .decision-card .action-label {
+        font-size: 1.1rem;
       }
 
       .comparison-grid {
         gap: 5px;
       }
 
+      .comp-box .title {
+        font-size: 0.62rem;
+      }
+
       .comp-box .val {
         font-size: 0.95rem;
       }
+
+      input[type="number"] {
+        min-height: 54px;
+      }
+
+      .new-ride-button {
+        min-height: 58px;
+      }
     }
+
   </style>
 </head>
+
 
 <body>
 
   <div class="container">
 
-    <h1>Asistente de Negociación</h1>
+    <h1>
+      Asistente de Negociación
+    </h1>
 
-    <div class="decision-card verde" id="decisionCard">
-      <div class="action-label" id="actionLabel">
+
+    <!-- ====================================
+         DECISIÓN
+         ==================================== -->
+
+    <div
+      class="decision-card verde"
+      id="decisionCard"
+    >
+
+      <div
+        class="action-label"
+        id="actionLabel"
+      >
         ¡ACEPTAR CARRERA!
       </div>
 
-      <div class="sub-label" id="subLabel">
+      <div
+        class="sub-label"
+        id="subLabel"
+      >
         La propuesta cubre tus metas de distancia y tiempo
       </div>
+
     </div>
+
+
+    <!-- ====================================
+         COMPARATIVA
+         ==================================== -->
 
     <div class="comparison-grid">
 
-      <div class="comp-box" style="border-color: #38bdf8;">
-        <div class="title">Propuesta App</div>
-        <div class="val"
-             id="valCliente"
-             style="color: #38bdf8;">
+      <div
+        class="comp-box"
+        style="border-color: #38bdf8;"
+      >
+
+        <div class="title">
+          Propuesta App
+        </div>
+
+        <div
+          class="val"
+          id="valCliente"
+          style="color: #38bdf8;"
+        >
           S/. 15.00
         </div>
+
       </div>
 
-      <div class="comp-box" style="border-color: #22c55e;">
-        <div class="title">Tu Sugerida</div>
-        <div class="val"
-             id="valSugerida"
-             style="color: #22c55e;">
+
+      <div
+        class="comp-box"
+        style="border-color: #22c55e;"
+      >
+
+        <div class="title">
+          Tu Sugerida
+        </div>
+
+        <div
+          class="val"
+          id="valSugerida"
+          style="color: #22c55e;"
+        >
           S/. 13.00
         </div>
+
       </div>
 
-      <div class="comp-box" style="border-color: #eab308;">
-        <div class="title">Meta Tiempo</div>
-        <div class="val"
-             id="valMeta"
-             style="color: #eab308;">
+
+      <div
+        class="comp-box"
+        style="border-color: #eab308;"
+      >
+
+        <div class="title">
+          Meta Tiempo
+        </div>
+
+        <div
+          class="val"
+          id="valMeta"
+          style="color: #eab308;"
+        >
           S/. 12.50
         </div>
+
       </div>
 
     </div>
 
+
+    <!-- ====================================
+         INPUTS DE LA CARRERA
+         ==================================== -->
+
     <div class="grid-inputs">
 
+
+      <!-- TARIFA -->
+
       <div class="form-group full">
-        <label for="tarifaCliente" style="color: #38bdf8;">
+
+        <label
+          for="tarifaCliente"
+          style="color: #38bdf8;"
+        >
           Tarifa Ofrecida por el Cliente
         </label>
 
         <div class="input-wrapper">
+
           <input
             type="number"
             id="tarifaCliente"
             step="0.50"
             min="0"
             value="15.00"
-            oninput="calcular()">
+            inputmode="decimal"
+            autocomplete="off"
+          >
 
-          <span class="unit">S/.</span>
+          <span class="unit">
+            S/.
+          </span>
+
         </div>
+
       </div>
+
+
+      <!-- RECOJO -->
 
       <div class="form-group">
 
@@ -425,12 +879,20 @@
             step="0.1"
             min="0"
             value="1.5"
-            oninput="calcular()">
+            inputmode="decimal"
+            autocomplete="off"
+          >
 
-          <span class="unit">km</span>
+          <span class="unit">
+            km
+          </span>
 
         </div>
+
       </div>
+
+
+      <!-- VIAJE -->
 
       <div class="form-group">
 
@@ -446,12 +908,20 @@
             step="0.1"
             min="0"
             value="5.0"
-            oninput="calcular()">
+            inputmode="decimal"
+            autocomplete="off"
+          >
 
-          <span class="unit">km</span>
+          <span class="unit">
+            km
+          </span>
 
         </div>
+
       </div>
+
+
+      <!-- TIEMPO -->
 
       <div class="form-group full">
 
@@ -467,14 +937,24 @@
             step="1"
             min="0"
             value="25"
-            oninput="calcular()">
+            inputmode="numeric"
+            autocomplete="off"
+          >
 
-          <span class="unit">min</span>
+          <span class="unit">
+            min
+          </span>
 
         </div>
+
       </div>
 
     </div>
+
+
+    <!-- ====================================
+         DISTRIBUCIÓN DISTANCIA
+         ==================================== -->
 
     <div class="chart-section">
 
@@ -482,27 +962,31 @@
         Distribución de Distancia
       </div>
 
+
       <div class="bar-container">
 
         <div
           class="bar-recojo"
           id="barRecojo"
-          style="width: 23%;">
-        </div>
+          style="width: 23%;"
+        ></div>
 
         <div
           class="bar-viaje"
           id="barViaje"
-          style="width: 77%;">
-        </div>
+          style="width: 77%;"
+        ></div>
 
       </div>
+
 
       <div class="bar-legend">
 
         <div class="legend-item">
 
-          <span class="dot dot-recojo"></span>
+          <span
+            class="dot dot-recojo"
+          ></span>
 
           <span>
             Recojo:
@@ -513,9 +997,12 @@
 
         </div>
 
+
         <div class="legend-item">
 
-          <span class="dot dot-viaje"></span>
+          <span
+            class="dot dot-viaje"
+          ></span>
 
           <span>
             Viaje:
@@ -530,29 +1017,39 @@
 
     </div>
 
+
+    <!-- ====================================
+         OCUPACIÓN
+         ==================================== -->
+
     <div class="chart-section">
 
       <div class="section-title">
         Ocupación Hora (Ratio: S/. 30/hr)
       </div>
 
+
       <div class="time-visual-wrapper">
+
 
         <div
           class="circle-chart"
-          id="circleChart">
+          id="circleChart"
+        >
 
           <div class="circle-inner">
 
             <span
               class="percent-text"
-              id="percentText">
+              id="percentText"
+            >
               42%
             </span>
 
           </div>
 
         </div>
+
 
         <div class="time-detail">
 
@@ -563,6 +1060,7 @@
             </strong>
             de 60 min
           </div>
+
 
           <div>
             Mínimo para rentabilidad:
@@ -576,6 +1074,11 @@
       </div>
 
     </div>
+
+
+    <!-- ====================================
+         COSTO POR KM
+         ==================================== -->
 
     <div class="settings-grid">
 
@@ -593,9 +1096,13 @@
             step="0.10"
             min="0"
             value="2.00"
-            oninput="calcular()">
+            inputmode="decimal"
+            autocomplete="off"
+          >
 
-          <span class="unit">S/.</span>
+          <span class="unit">
+            S/.
+          </span>
 
         </div>
 
@@ -603,99 +1110,342 @@
 
     </div>
 
-    <button class="reset-button" onclick="restablecer()">
-      Restablecer valores
+
+    <!-- ====================================
+         NUEVA CARRERA
+         ==================================== -->
+
+    <button
+      class="new-ride-button"
+      id="newRideButton"
+      type="button"
+    >
+      ↻ NUEVA CARRERA
     </button>
+
 
   </div>
 
+
   <script>
+
+
+    /* ==========================================
+       CONFIGURACIÓN
+       ========================================== */
+
+    const STORAGE_KEY =
+      "tuTarifaTaxi_datos";
+
+
+    /*
+      Estos son los valores que aparecerán
+      cuando no exista información guardada.
+    */
+
+    const valoresIniciales = {
+
+      tarifaCliente: "15.00",
+
+      distRecojo: "1.5",
+
+      distViaje: "5.0",
+
+      tiempoTotal: "25",
+
+      costoKm: "2.00"
+
+    };
+
+
+    /* ==========================================
+       OBTENER ELEMENTO
+       ========================================== */
+
+    function elemento(id) {
+
+      return document.getElementById(id);
+
+    }
+
+
+    /* ==========================================
+       GUARDAR VALORES
+       ========================================== */
+
+    function guardarValores() {
+
+      const datos = {
+
+        tarifaCliente:
+          elemento("tarifaCliente").value,
+
+        distRecojo:
+          elemento("distRecojo").value,
+
+        distViaje:
+          elemento("distViaje").value,
+
+        tiempoTotal:
+          elemento("tiempoTotal").value,
+
+        costoKm:
+          elemento("costoKm").value
+
+      };
+
+
+      try {
+
+        localStorage.setItem(
+          STORAGE_KEY,
+          JSON.stringify(datos)
+        );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "No se pudieron guardar los valores:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       CARGAR VALORES
+       ========================================== */
+
+    function cargarValores() {
+
+      let datosGuardados = null;
+
+
+      try {
+
+        datosGuardados =
+          localStorage.getItem(
+            STORAGE_KEY
+          );
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "No se pudo acceder al almacenamiento:",
+          error
+        );
+
+      }
+
+
+      /*
+        Si no hay datos guardados,
+        usamos los valores iniciales.
+      */
+
+      if (!datosGuardados) {
+
+        elemento("tarifaCliente").value =
+          valoresIniciales.tarifaCliente;
+
+        elemento("distRecojo").value =
+          valoresIniciales.distRecojo;
+
+        elemento("distViaje").value =
+          valoresIniciales.distViaje;
+
+        elemento("tiempoTotal").value =
+          valoresIniciales.tiempoTotal;
+
+        elemento("costoKm").value =
+          valoresIniciales.costoKm;
+
+        return;
+
+      }
+
+
+      try {
+
+        const datos =
+          JSON.parse(datosGuardados);
+
+
+        elemento("tarifaCliente").value =
+          datos.tarifaCliente ??
+          valoresIniciales.tarifaCliente;
+
+
+        elemento("distRecojo").value =
+          datos.distRecojo ??
+          valoresIniciales.distRecojo;
+
+
+        elemento("distViaje").value =
+          datos.distViaje ??
+          valoresIniciales.distViaje;
+
+
+        elemento("tiempoTotal").value =
+          datos.tiempoTotal ??
+          valoresIniciales.tiempoTotal;
+
+
+        elemento("costoKm").value =
+          datos.costoKm ??
+          valoresIniciales.costoKm;
+
+      }
+
+      catch (error) {
+
+        console.error(
+          "No se pudieron cargar los datos:",
+          error
+        );
+
+      }
+
+    }
+
+
+    /* ==========================================
+       CALCULADORA
+       ========================================== */
 
     function calcular() {
 
+
       const cliente =
         parseFloat(
-          document.getElementById('tarifaCliente').value
+          elemento("tarifaCliente").value
         ) || 0;
+
 
       const recojo =
         parseFloat(
-          document.getElementById('distRecojo').value
+          elemento("distRecojo").value
         ) || 0;
+
 
       const viaje =
         parseFloat(
-          document.getElementById('distViaje').value
+          elemento("distViaje").value
         ) || 0;
+
 
       const tiempo =
         parseFloat(
-          document.getElementById('tiempoTotal').value
+          elemento("tiempoTotal").value
         ) || 0;
+
 
       const costoKm =
         parseFloat(
-          document.getElementById('costoKm').value
+          elemento("costoKm").value
         ) || 0;
 
-      const distanciaTotal = recojo + viaje;
+
+      /* ========================================
+         CÁLCULOS
+         ======================================== */
+
+      const distanciaTotal =
+        recojo + viaje;
+
 
       const tarifaSugerida =
         distanciaTotal * costoKm;
 
+
       const metaTiempo =
         tiempo * 0.50;
 
-      document.getElementById('valCliente').innerText =
+
+      /* ========================================
+         RESULTADOS
+         ======================================== */
+
+      elemento("valCliente").innerText =
         `S/. ${cliente.toFixed(2)}`;
 
-      document.getElementById('valSugerida').innerText =
+
+      elemento("valSugerida").innerText =
         `S/. ${tarifaSugerida.toFixed(2)}`;
 
-      document.getElementById('valMeta').innerText =
+
+      elemento("valMeta").innerText =
         `S/. ${metaTiempo.toFixed(2)}`;
 
+
+      /* ========================================
+         DECISIÓN
+         ======================================== */
+
       const card =
-        document.getElementById('decisionCard');
+        elemento("decisionCard");
+
 
       const actionLabel =
-        document.getElementById('actionLabel');
+        elemento("actionLabel");
+
 
       const subLabel =
-        document.getElementById('subLabel');
+        elemento("subLabel");
+
 
       if (
         cliente >= tarifaSugerida &&
         cliente >= metaTiempo
       ) {
 
+
         card.className =
           "decision-card verde";
+
 
         actionLabel.innerText =
           "¡ACEPTAR CARRERA!";
 
+
         subLabel.innerText =
           "La oferta cubre perfectamente la distancia y tu meta por tiempo.";
 
-      } else if (
+      }
+
+
+      else if (
         cliente < tarifaSugerida &&
         cliente >= metaTiempo
       ) {
 
+
         const diff =
           tarifaSugerida - cliente;
+
 
         card.className =
           "decision-card amarillo";
 
+
         actionLabel.innerText =
           `CONTRAOFERTAR: S/. ${tarifaSugerida.toFixed(2)}`;
+
 
         subLabel.innerText =
           `Faltan S/. ${diff.toFixed(2)} para tu tarifa ideal por kilometraje.`;
 
-      } else {
+      }
+
+
+      else {
+
 
         const mayorMeta =
           Math.max(
@@ -703,37 +1453,60 @@
             metaTiempo
           );
 
+
         card.className =
           "decision-card rojo";
+
 
         actionLabel.innerText =
           `PIDE MÍNIMO S/. ${mayorMeta.toFixed(2)}`;
 
+
         subLabel.innerText =
           "La tarifa del cliente está por debajo de tus costos de tiempo o distancia.";
+
       }
+
+
+      /* ========================================
+         BARRA DE DISTANCIA
+         ======================================== */
 
       const pRecojo =
         distanciaTotal > 0
           ? (recojo / distanciaTotal) * 100
           : 0;
 
+
       const pViaje =
         distanciaTotal > 0
           ? (viaje / distanciaTotal) * 100
           : 0;
 
-      document.getElementById('barRecojo')
-        .style.width = `${pRecojo}%`;
 
-      document.getElementById('barViaje')
-        .style.width = `${pViaje}%`;
+      elemento("barRecojo")
+        .style.width =
+        `${pRecojo}%`;
 
-      document.getElementById('lblRecojo')
-        .innerText = `${recojo.toFixed(1)} km`;
 
-      document.getElementById('lblViaje')
-        .innerText = `${viaje.toFixed(1)} km`;
+      elemento("barViaje")
+        .style.width =
+        `${pViaje}%`;
+
+
+      elemento("lblRecojo")
+        .innerText =
+        `${recojo.toFixed(1)} km`;
+
+
+      elemento("lblViaje")
+        .innerText =
+        `${viaje.toFixed(1)} km`;
+
+
+      /* ========================================
+         GRÁFICO DE TIEMPO
+         ======================================== */
 
       const porcentajeHora =
         Math.min(
@@ -741,11 +1514,14 @@
           100
         );
 
+
       const grados =
         (porcentajeHora / 100) * 360;
 
+
       const circle =
-        document.getElementById('circleChart');
+        elemento("circleChart");
+
 
       circle.style.background =
         `conic-gradient(
@@ -753,54 +1529,174 @@
           #334155 ${grados}deg
         )`;
 
-      document.getElementById('percentText')
+
+      elemento("percentText")
         .innerText =
         `${porcentajeHora.toFixed(0)}%`;
 
-      document.getElementById('lblTiempo')
+
+      elemento("lblTiempo")
         .innerText =
         `${tiempo} min`;
 
-      document.getElementById('lblMetaTexto')
+
+      elemento("lblMetaTexto")
         .innerText =
         `S/. ${metaTiempo.toFixed(2)}`;
+
+
+      /* ========================================
+         GUARDAR AUTOMÁTICAMENTE
+         ======================================== */
+
+      guardarValores();
+
     }
 
 
-    function restablecer() {
+    /* ==========================================
+       NUEVA CARRERA
+       ========================================== */
 
-      document.getElementById('tarifaCliente').value = "15.00";
-      document.getElementById('distRecojo').value = "1.5";
-      document.getElementById('distViaje').value = "5.0";
-      document.getElementById('tiempoTotal').value = "25";
-      document.getElementById('costoKm').value = "2.00";
+    function nuevaCarrera() {
+
+
+      const confirmar =
+        confirm(
+          "¿Quieres comenzar una nueva carrera?\n\n" +
+          "Se borrarán la tarifa, distancia y tiempo " +
+          "de la carrera anterior.\n\n" +
+          "Tu Costo Base por KM se conservará."
+        );
+
+
+      if (!confirmar) {
+
+        return;
+
+      }
+
+
+      /*
+        Restablecemos solamente
+        los datos propios de la carrera.
+      */
+
+      elemento("tarifaCliente").value =
+        valoresIniciales.tarifaCliente;
+
+
+      elemento("distRecojo").value =
+        valoresIniciales.distRecojo;
+
+
+      elemento("distViaje").value =
+        valoresIniciales.distViaje;
+
+
+      elemento("tiempoTotal").value =
+        valoresIniciales.tiempoTotal;
+
+
+      /*
+        NO tocamos costoKm.
+        Tu configuración personal permanece.
+      */
 
       calcular();
-    }
-
-
-    // Registrar Service Worker
-    if ('serviceWorker' in navigator) {
-
-      window.addEventListener('load', () => {
-
-        navigator.serviceWorker
-          .register('./sw.js')
-          .then(() => {
-            console.log('Service Worker registrado correctamente');
-          })
-          .catch(error => {
-            console.error(
-              'Error registrando Service Worker:',
-              error
-            );
-          });
-
-      });
 
     }
+
+
+    /* ==========================================
+       DETECTAR CAMBIOS EN LOS INPUTS
+       ========================================== */
+
+    const inputs = [
+
+      "tarifaCliente",
+
+      "distRecojo",
+
+      "distViaje",
+
+      "tiempoTotal",
+
+      "costoKm"
+
+    ];
+
+
+    inputs.forEach(id => {
+
+      elemento(id)
+        .addEventListener(
+          "input",
+          calcular
+        );
+
+    });
+
+
+    /* ==========================================
+       BOTÓN NUEVA CARRERA
+       ========================================== */
+
+    elemento("newRideButton")
+      .addEventListener(
+        "click",
+        nuevaCarrera
+      );
+
+
+    /* ==========================================
+       INICIAR APLICACIÓN
+       ========================================== */
+
+    cargarValores();
 
     calcular();
+
+
+    /* ==========================================
+       SERVICE WORKER
+       ========================================== */
+
+    if ("serviceWorker" in navigator) {
+
+
+      window.addEventListener(
+        "load",
+        () => {
+
+
+          navigator.serviceWorker
+            .register("./sw.js")
+
+
+            .then(() => {
+
+              console.log(
+                "Service Worker registrado correctamente"
+              );
+
+            })
+
+
+            .catch(error => {
+
+              console.error(
+                "Error registrando Service Worker:",
+                error
+              );
+
+            });
+
+        }
+      );
+
+    }
+
 
   </script>
 
