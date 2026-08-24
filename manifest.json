@@ -1,0 +1,19 @@
+{
+  "name": "Asistente de Negociación Taxi",
+  "short_name": "Taxi",
+  "description": "Calculadora para evaluar y negociar carreras de taxi",
+  "lang": "es",
+  "start_url": "./index.html",
+  "scope": "./",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0f172a",
+  "theme_color": "#0f172a",
+  "icons": [
+    {
+      "src": "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 512 512'%3E%3Crect width='512' height='512' rx='100' fill='%230f172a'/%3E%3Crect x='80' y='190' width='352' height='170' rx='35' fill='%2322c55e'/%3E%3Ccircle cx='165' cy='370' r='45' fill='%23334155'/%3E%3Ccircle cx='347' cy='370' r='45' fill='%23334155'/%3E%3Crect x='145' y='130' width='222' height='70' rx='25' fill='%2322c55e'/%3E%3Cpath d='M165 190 L205 130 L307 130 L347 190 Z' fill='%231e293b'/%3E%3C/svg%3E",
+      "sizes": "512x512",
+      "type": "image/svg+xml"
+    }
+  ]
+}
