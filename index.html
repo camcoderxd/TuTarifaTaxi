@@ -1,0 +1,808 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+
+  <meta name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+
+  <meta name="theme-color" content="#0f172a">
+  <meta name="description" content="Asistente de negociación para carreras de taxi">
+
+  <link rel="manifest" href="manifest.json">
+
+  <title>Asistente de Negociación</title>
+
+  <style>
+    :root {
+      --bg-color: #0f172a;
+      --card-bg: #1e293b;
+      --accent-green: #22c55e;
+      --accent-yellow: #eab308;
+      --accent-red: #ef4444;
+      --recojo-color: #3b82f6;
+      --viaje-color: #10b981;
+      --text-color: #f8fafc;
+      --subtext-color: #94a3b8;
+      --input-bg: #334155;
+      --border-color: #475569;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+    }
+
+    input::-webkit-outer-spin-button,
+    input::-webkit-inner-spin-button {
+      -webkit-appearance: none;
+      margin: 0;
+    }
+
+    input[type=number] {
+      -moz-appearance: textfield;
+    }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-color);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      min-height: 100dvh;
+      padding: 16px;
+    }
+
+    .container {
+      background-color: var(--card-bg);
+      width: 100%;
+      max-width: 500px;
+      border-radius: 16px;
+      padding: 20px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+      border: 1px solid var(--border-color);
+    }
+
+    h1 {
+      font-size: 1.3rem;
+      text-align: center;
+      margin-bottom: 16px;
+      color: var(--text-color);
+    }
+
+    .decision-card {
+      border-radius: 12px;
+      padding: 16px;
+      text-align: center;
+      margin-bottom: 16px;
+      transition: all 0.3s ease;
+      background: linear-gradient(135deg, #15803d 0%, #166534 100%);
+    }
+
+    .decision-card.verde {
+      background: linear-gradient(135deg, #166534 0%, #14532d 100%);
+      border: 2px solid var(--accent-green);
+    }
+
+    .decision-card.amarillo {
+      background: linear-gradient(135deg, #854d0e 0%, #713f12 100%);
+      border: 2px solid var(--accent-yellow);
+    }
+
+    .decision-card.rojo {
+      background: linear-gradient(135deg, #991b1b 0%, #7f1d1d 100%);
+      border: 2px solid var(--accent-red);
+    }
+
+    .decision-card .action-label {
+      font-size: 1.2rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      margin-bottom: 4px;
+      text-transform: uppercase;
+    }
+
+    .decision-card .sub-label {
+      font-size: 0.85rem;
+      color: #e2e8f0;
+    }
+
+    .comparison-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr 1fr;
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+
+    .comp-box {
+      background-color: #0f172a;
+      border-radius: 8px;
+      padding: 10px 6px;
+      text-align: center;
+      border: 1px solid var(--border-color);
+    }
+
+    .comp-box .title {
+      font-size: 0.7rem;
+      color: var(--subtext-color);
+      text-transform: uppercase;
+      margin-bottom: 4px;
+      font-weight: 600;
+    }
+
+    .comp-box .val {
+      font-size: 1.1rem;
+      font-weight: bold;
+    }
+
+    .grid-inputs {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-bottom: 16px;
+    }
+
+    .form-group {
+      margin-bottom: 0;
+    }
+
+    .form-group.full {
+      grid-column: span 2;
+    }
+
+    label {
+      display: block;
+      font-size: 0.8rem;
+      margin-bottom: 4px;
+      color: var(--subtext-color);
+      font-weight: 600;
+    }
+
+    .input-wrapper {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    input[type="number"] {
+      width: 100%;
+      background-color: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      padding: 8px 12px;
+      font-size: 1.1rem;
+      color: var(--text-color);
+      outline: none;
+    }
+
+    input[type="number"]:focus {
+      border-color: var(--accent-green);
+    }
+
+    .unit {
+      position: absolute;
+      right: 10px;
+      color: var(--subtext-color);
+      font-size: 0.85rem;
+      font-weight: bold;
+    }
+
+    .chart-section {
+      background-color: #0f172a;
+      border-radius: 10px;
+      padding: 12px;
+      margin-top: 12px;
+      border: 1px solid var(--border-color);
+    }
+
+    .section-title {
+      font-size: 0.75rem;
+      text-transform: uppercase;
+      color: var(--subtext-color);
+      margin-bottom: 8px;
+      letter-spacing: 0.5px;
+    }
+
+    .bar-container {
+      height: 14px;
+      background-color: #334155;
+      border-radius: 7px;
+      display: flex;
+      overflow: hidden;
+      margin-bottom: 6px;
+    }
+
+    .bar-recojo {
+      background-color: var(--recojo-color);
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .bar-viaje {
+      background-color: var(--viaje-color);
+      height: 100%;
+      transition: width 0.3s ease;
+    }
+
+    .bar-legend {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+    }
+
+    .legend-item {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+
+    .dot-recojo {
+      background-color: var(--recojo-color);
+    }
+
+    .dot-viaje {
+      background-color: var(--viaje-color);
+    }
+
+    .time-visual-wrapper {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .circle-chart {
+      width: 70px;
+      height: 70px;
+      min-width: 70px;
+      border-radius: 50%;
+      background: conic-gradient(
+        var(--accent-green) 0deg,
+        #334155 0deg
+      );
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .circle-inner {
+      width: 54px;
+      height: 54px;
+      background-color: #0f172a;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .percent-text {
+      font-size: 0.95rem;
+      font-weight: bold;
+      color: var(--text-color);
+    }
+
+    .time-detail {
+      flex-grow: 1;
+      font-size: 0.8rem;
+      color: var(--subtext-color);
+    }
+
+    .time-detail strong {
+      color: var(--text-color);
+    }
+
+    .settings-grid {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 10px;
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--border-color);
+    }
+
+    /* Botón de reinicio */
+    .reset-button {
+      width: 100%;
+      margin-top: 14px;
+      padding: 11px;
+      border: 1px solid var(--border-color);
+      border-radius: 8px;
+      background: #334155;
+      color: var(--text-color);
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .reset-button:active {
+      transform: scale(0.98);
+      background: #475569;
+    }
+
+    @media (max-width: 360px) {
+      .container {
+        padding: 14px;
+      }
+
+      .comparison-grid {
+        gap: 5px;
+      }
+
+      .comp-box .val {
+        font-size: 0.95rem;
+      }
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <h1>Asistente de Negociación</h1>
+
+    <div class="decision-card verde" id="decisionCard">
+      <div class="action-label" id="actionLabel">
+        ¡ACEPTAR CARRERA!
+      </div>
+
+      <div class="sub-label" id="subLabel">
+        La propuesta cubre tus metas de distancia y tiempo
+      </div>
+    </div>
+
+    <div class="comparison-grid">
+
+      <div class="comp-box" style="border-color: #38bdf8;">
+        <div class="title">Propuesta App</div>
+        <div class="val"
+             id="valCliente"
+             style="color: #38bdf8;">
+          S/. 15.00
+        </div>
+      </div>
+
+      <div class="comp-box" style="border-color: #22c55e;">
+        <div class="title">Tu Sugerida</div>
+        <div class="val"
+             id="valSugerida"
+             style="color: #22c55e;">
+          S/. 13.00
+        </div>
+      </div>
+
+      <div class="comp-box" style="border-color: #eab308;">
+        <div class="title">Meta Tiempo</div>
+        <div class="val"
+             id="valMeta"
+             style="color: #eab308;">
+          S/. 12.50
+        </div>
+      </div>
+
+    </div>
+
+    <div class="grid-inputs">
+
+      <div class="form-group full">
+        <label for="tarifaCliente" style="color: #38bdf8;">
+          Tarifa Ofrecida por el Cliente
+        </label>
+
+        <div class="input-wrapper">
+          <input
+            type="number"
+            id="tarifaCliente"
+            step="0.50"
+            min="0"
+            value="15.00"
+            oninput="calcular()">
+
+          <span class="unit">S/.</span>
+        </div>
+      </div>
+
+      <div class="form-group">
+
+        <label for="distRecojo">
+          Dist. Recojo
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="number"
+            id="distRecojo"
+            step="0.1"
+            min="0"
+            value="1.5"
+            oninput="calcular()">
+
+          <span class="unit">km</span>
+
+        </div>
+      </div>
+
+      <div class="form-group">
+
+        <label for="distViaje">
+          Dist. Viaje
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="number"
+            id="distViaje"
+            step="0.1"
+            min="0"
+            value="5.0"
+            oninput="calcular()">
+
+          <span class="unit">km</span>
+
+        </div>
+      </div>
+
+      <div class="form-group full">
+
+        <label for="tiempoTotal">
+          Tiempo Total Estimado
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="number"
+            id="tiempoTotal"
+            step="1"
+            min="0"
+            value="25"
+            oninput="calcular()">
+
+          <span class="unit">min</span>
+
+        </div>
+      </div>
+
+    </div>
+
+    <div class="chart-section">
+
+      <div class="section-title">
+        Distribución de Distancia
+      </div>
+
+      <div class="bar-container">
+
+        <div
+          class="bar-recojo"
+          id="barRecojo"
+          style="width: 23%;">
+        </div>
+
+        <div
+          class="bar-viaje"
+          id="barViaje"
+          style="width: 77%;">
+        </div>
+
+      </div>
+
+      <div class="bar-legend">
+
+        <div class="legend-item">
+
+          <span class="dot dot-recojo"></span>
+
+          <span>
+            Recojo:
+            <strong id="lblRecojo">
+              1.5 km
+            </strong>
+          </span>
+
+        </div>
+
+        <div class="legend-item">
+
+          <span class="dot dot-viaje"></span>
+
+          <span>
+            Viaje:
+            <strong id="lblViaje">
+              5.0 km
+            </strong>
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="chart-section">
+
+      <div class="section-title">
+        Ocupación Hora (Ratio: S/. 30/hr)
+      </div>
+
+      <div class="time-visual-wrapper">
+
+        <div
+          class="circle-chart"
+          id="circleChart">
+
+          <div class="circle-inner">
+
+            <span
+              class="percent-text"
+              id="percentText">
+              42%
+            </span>
+
+          </div>
+
+        </div>
+
+        <div class="time-detail">
+
+          <div>
+            Ocupación:
+            <strong id="lblTiempo">
+              25 min
+            </strong>
+            de 60 min
+          </div>
+
+          <div>
+            Mínimo para rentabilidad:
+            <strong id="lblMetaTexto">
+              S/. 12.50
+            </strong>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <div class="settings-grid">
+
+      <div class="form-group">
+
+        <label for="costoKm">
+          Costo Base por KM (Ajuste)
+        </label>
+
+        <div class="input-wrapper">
+
+          <input
+            type="number"
+            id="costoKm"
+            step="0.10"
+            min="0"
+            value="2.00"
+            oninput="calcular()">
+
+          <span class="unit">S/.</span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <button class="reset-button" onclick="restablecer()">
+      Restablecer valores
+    </button>
+
+  </div>
+
+  <script>
+
+    function calcular() {
+
+      const cliente =
+        parseFloat(
+          document.getElementById('tarifaCliente').value
+        ) || 0;
+
+      const recojo =
+        parseFloat(
+          document.getElementById('distRecojo').value
+        ) || 0;
+
+      const viaje =
+        parseFloat(
+          document.getElementById('distViaje').value
+        ) || 0;
+
+      const tiempo =
+        parseFloat(
+          document.getElementById('tiempoTotal').value
+        ) || 0;
+
+      const costoKm =
+        parseFloat(
+          document.getElementById('costoKm').value
+        ) || 0;
+
+      const distanciaTotal = recojo + viaje;
+
+      const tarifaSugerida =
+        distanciaTotal * costoKm;
+
+      const metaTiempo =
+        tiempo * 0.50;
+
+      document.getElementById('valCliente').innerText =
+        `S/. ${cliente.toFixed(2)}`;
+
+      document.getElementById('valSugerida').innerText =
+        `S/. ${tarifaSugerida.toFixed(2)}`;
+
+      document.getElementById('valMeta').innerText =
+        `S/. ${metaTiempo.toFixed(2)}`;
+
+      const card =
+        document.getElementById('decisionCard');
+
+      const actionLabel =
+        document.getElementById('actionLabel');
+
+      const subLabel =
+        document.getElementById('subLabel');
+
+      if (
+        cliente >= tarifaSugerida &&
+        cliente >= metaTiempo
+      ) {
+
+        card.className =
+          "decision-card verde";
+
+        actionLabel.innerText =
+          "¡ACEPTAR CARRERA!";
+
+        subLabel.innerText =
+          "La oferta cubre perfectamente la distancia y tu meta por tiempo.";
+
+      } else if (
+        cliente < tarifaSugerida &&
+        cliente >= metaTiempo
+      ) {
+
+        const diff =
+          tarifaSugerida - cliente;
+
+        card.className =
+          "decision-card amarillo";
+
+        actionLabel.innerText =
+          `CONTRAOFERTAR: S/. ${tarifaSugerida.toFixed(2)}`;
+
+        subLabel.innerText =
+          `Faltan S/. ${diff.toFixed(2)} para tu tarifa ideal por kilometraje.`;
+
+      } else {
+
+        const mayorMeta =
+          Math.max(
+            tarifaSugerida,
+            metaTiempo
+          );
+
+        card.className =
+          "decision-card rojo";
+
+        actionLabel.innerText =
+          `PIDE MÍNIMO S/. ${mayorMeta.toFixed(2)}`;
+
+        subLabel.innerText =
+          "La tarifa del cliente está por debajo de tus costos de tiempo o distancia.";
+      }
+
+      const pRecojo =
+        distanciaTotal > 0
+          ? (recojo / distanciaTotal) * 100
+          : 0;
+
+      const pViaje =
+        distanciaTotal > 0
+          ? (viaje / distanciaTotal) * 100
+          : 0;
+
+      document.getElementById('barRecojo')
+        .style.width = `${pRecojo}%`;
+
+      document.getElementById('barViaje')
+        .style.width = `${pViaje}%`;
+
+      document.getElementById('lblRecojo')
+        .innerText = `${recojo.toFixed(1)} km`;
+
+      document.getElementById('lblViaje')
+        .innerText = `${viaje.toFixed(1)} km`;
+
+      const porcentajeHora =
+        Math.min(
+          (tiempo / 60) * 100,
+          100
+        );
+
+      const grados =
+        (porcentajeHora / 100) * 360;
+
+      const circle =
+        document.getElementById('circleChart');
+
+      circle.style.background =
+        `conic-gradient(
+          #22c55e ${grados}deg,
+          #334155 ${grados}deg
+        )`;
+
+      document.getElementById('percentText')
+        .innerText =
+        `${porcentajeHora.toFixed(0)}%`;
+
+      document.getElementById('lblTiempo')
+        .innerText =
+        `${tiempo} min`;
+
+      document.getElementById('lblMetaTexto')
+        .innerText =
+        `S/. ${metaTiempo.toFixed(2)}`;
+    }
+
+
+    function restablecer() {
+
+      document.getElementById('tarifaCliente').value = "15.00";
+      document.getElementById('distRecojo').value = "1.5";
+      document.getElementById('distViaje').value = "5.0";
+      document.getElementById('tiempoTotal').value = "25";
+      document.getElementById('costoKm').value = "2.00";
+
+      calcular();
+    }
+
+
+    // Registrar Service Worker
+    if ('serviceWorker' in navigator) {
+
+      window.addEventListener('load', () => {
+
+        navigator.serviceWorker
+          .register('./sw.js')
+          .then(() => {
+            console.log('Service Worker registrado correctamente');
+          })
+          .catch(error => {
+            console.error(
+              'Error registrando Service Worker:',
+              error
+            );
+          });
+
+      });
+
+    }
+
+    calcular();
+
+  </script>
+
+</body>
+</html>
